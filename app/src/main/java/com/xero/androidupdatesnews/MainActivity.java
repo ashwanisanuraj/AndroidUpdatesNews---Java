@@ -13,6 +13,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static android.graphics.Color.TRANSPARENT;
+
 public class MainActivity extends AppCompatActivity {
 
     // Widgets
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().setStatusBarColor(TRANSPARENT);
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
