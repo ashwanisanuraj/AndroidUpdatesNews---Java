@@ -19,12 +19,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.graphics.Color.TRANSPARENT;
 
 public class JournalListActivity extends AppCompatActivity {
 
@@ -53,11 +56,12 @@ public class JournalListActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal_list);
+
+        getWindow().setStatusBarColor(TRANSPARENT);
 
 
         // Firebase Auth
@@ -74,13 +78,19 @@ public class JournalListActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(JournalListActivity.this, AddJournalActivity.class);
-                startActivity(i);
-            }
-        });
+        if (user != null && user.getEmail().equals("ashwani@news.com")) {
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(JournalListActivity.this, AddJournalActivity.class);
+                    startActivity(i);
+                }
+            });
+        } else {
+            // Disable the FAB for other users
+            fab.setVisibility(View.GONE);
+        }
     }
 
     // 2- Adding a menu
@@ -98,16 +108,16 @@ public class JournalListActivity extends AppCompatActivity {
 
         if (itemId == R.id.action_add) {
 
-            if (user != null && firebaseAuth != null) {
-                Intent i = new Intent(JournalListActivity.this,
-                        AddJournalActivity.class);
+            if (user != null && firebaseAuth != null && user.getEmail().equals("ashwani@news.com")) {
+                Intent i = new Intent(JournalListActivity.this, AddJournalActivity.class);
                 startActivity(i);
             }
         } else if (itemId == R.id.action_signout) {
             if (user != null && firebaseAuth != null) {
                 firebaseAuth.signOut();
-                Intent i = new Intent(JournalListActivity.this,
-                        MainActivity.class);
+                Intent i = new Intent(JournalListActivity.this, MainActivity.class);
+                startActivity(i);
+                finish(); // Close the current activity after sign out
             }
         }
 
@@ -115,11 +125,12 @@ public class JournalListActivity extends AppCompatActivity {
     }
 
 
-    @Override
+
     protected void onStart() {
         super.onStart();
 
-        collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        collectionReference.orderBy("timeAdded", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
@@ -127,8 +138,7 @@ public class JournalListActivity extends AppCompatActivity {
                 // a single document retrieved from a Firestore query
                 // QueryDocumentSnapshot --> Document
 
-                for (QueryDocumentSnapshot journals: queryDocumentSnapshots)
-                {
+                for (QueryDocumentSnapshot journals : queryDocumentSnapshots) {
                     // Convert the document into a custom Object (Journal)
                     Journal journal = journals.toObject(Journal.class);
 
@@ -154,6 +164,7 @@ public class JournalListActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
 

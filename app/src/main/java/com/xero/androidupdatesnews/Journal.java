@@ -2,7 +2,9 @@ package com.xero.androidupdatesnews;
 
 import com.google.firebase.Timestamp;
 
-public class Journal {
+import java.io.Serializable;
+
+public class Journal implements Serializable {
 
     private String title;
     private String thoughts;
@@ -18,7 +20,7 @@ public class Journal {
     public Journal() {
     }
 
-    public Journal(String title, String thoughts, String imageUrl, String userId, Timestamp timeAdded, String userName) {
+    public Journal(String title, String thoughts, String link, String imageUrl, String userId, Timestamp timeAdded, String userName) {
         this.title = title;
         this.thoughts = thoughts;
         this.link = link;
@@ -27,6 +29,7 @@ public class Journal {
         this.timeAdded = timeAdded;
         this.userName = userName;
     }
+
 
 
     public String getTitle() {

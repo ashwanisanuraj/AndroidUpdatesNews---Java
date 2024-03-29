@@ -22,6 +22,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     private Context context;
     private List<Journal> journalList;
 
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Journal journal);
+    }
+
     public MyAdapter(Context context, List<Journal> journalList) {
         this.context = context;
         this.journalList = journalList;
@@ -92,7 +98,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     }
 
     // Share journal method
-    private void shareJournal(Journal journal) {
+    public void shareJournal(Journal journal) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         String shareBody = "Title: " + journal.getTitle() + "\n\n"
