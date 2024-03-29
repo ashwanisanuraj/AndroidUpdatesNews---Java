@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430649121026",
+    "project_id": "androidupdatesnews",
+    "storage_bucket": "androidupdatesnews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430649121026:android:194a105cd0fa405fbe4a1b",
+        "android_client_info": {
+          "package_name": "com.xero.androidupdatesnews"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG46gPQ4ntgPnNbaqQWOqWVBulc_k8QZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
